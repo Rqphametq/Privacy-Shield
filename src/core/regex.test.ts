@@ -200,6 +200,13 @@ describe('internal documents (Doc1–Doc5)', () => {
   })
 })
 
+describe('firms named "X & Associés"', () => {
+  it('the whole name, with or without "Cabinet"', () => {
+    expect(found('CABINET ARVELLE & ASSOCIÉS\nArvelle & Associés – Due diligence'))
+      .toEqual([['ENTREPRISE', 'CABINET ARVELLE & ASSOCIÉS'], ['ENTREPRISE', 'Arvelle & Associés']])
+  })
+})
+
 describe('business figures without a currency (CHIFFRE)', () => {
   it('percentages, multiples, quantities of people or surface', () => {
     expect(found('38 suppressions de postes sur 219 salariés (17 %), marge de 7,7 % et +26 % en 2025, multiple de 14,8x, 86 m²'))
@@ -210,6 +217,20 @@ describe('business figures without a currency (CHIFFRE)', () => {
   it('numbers with thousands separators, and numbers alone in a table cell', () => {
     expect(found("Chiffre d'affaires 14 200 17 900 20 400")).toEqual([['CHIFFRE', '14 200'], ['CHIFFRE', '17 900'], ['CHIFFRE', '20 400']])
     expect(found('Production\n118\n22\nTotal\n219')).toEqual([['CHIFFRE', '118'], ['CHIFFRE', '22'], ['CHIFFRE', '219']])
+  })
+
+  it('PDF table rows (cells separated by tabs): every cell figure, but not the year headers', () => {
+    expect(found("En k€\t2024\t2025\t2026 (prévision)\nRésultat net\t400\t1 500\t2 100\nTerres d'Ouest\t900\t5 %"))
+      .toEqual([['CHIFFRE', '400'], ['CHIFFRE', '1 500'], ['CHIFFRE', '2 100'], ['CHIFFRE', '900'], ['CHIFFRE', '5 %']])
+    expect(found('En k€ 2024 2025')).toEqual([])
+    // Row and section numbers in the first column, page footers.
+    expect(found('1\tProduit de crédit\n2.1\tLe Fournisseur concède\nDue diligence – Page\t1\t/\t2')).toEqual([])
+  })
+
+  it('signed figures and the terms of a calculation', () => {
+    expect(found("-310 sur l'EBITDA, -105 sur la dette, soit 2 290 (2 600 – 310)"))
+      .toEqual([['CHIFFRE', '-310'], ['CHIFFRE', '-105'], ['CHIFFRE', '2 290'], ['CHIFFRE', '2 600'], ['CHIFFRE', '310']])
+    expect(found('art. L. 442-1, période 2024-2026, de 2015 – 2026, COVID-19')).toEqual([])
   })
 
   it('leaves article numbers, dates, durations, votes and amounts to their own rules', () => {

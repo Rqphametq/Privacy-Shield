@@ -174,9 +174,21 @@ describe('internal documents (Doc1–Doc5)', () => {
   }
 
   it('a name found in normal case is also masked when written in capitals', () => {
-    const text = 'CABINET ARVELLE & ASSOCIÉS\nRapport du cabinet Arvelle & Associés.'
+    const text = 'ARVELLE\nRapport de Arvelle.'
     const spans = detectAll(text, ner(text, [['Arvelle', 'ENTREPRISE']]), [])
     expect(view(text, spans)).toEqual([['ENTREPRISE', 'ARVELLE'], ['ENTREPRISE', 'Arvelle']])
+  })
+
+  it('a person found with a first name is also masked by surname alone', () => {
+    const text = 'Litige de M. Hugo Lemaître. Garantie pour le litige Lemaître.'
+    expect(view(text, detectAll(text, ner(text, [['Hugo Lemaître', 'PERSONNE']]), [])))
+      .toEqual([['PERSONNE', 'Hugo Lemaître'], ['PERSONNE', 'Lemaître']])
+  })
+
+  it('a company found with its legal form is also masked without it, in any case', () => {
+    const text = 'LUMEO TEXTILES SAS\nObjet : Litige Lumeo Textiles / Établissements Garnier-Tessier SARL. Garnier-Tessier soutient'
+    expect(view(text, detectAll(text, [], []))).toEqual([['ENTREPRISE', 'LUMEO TEXTILES SAS'], ['ENTREPRISE', 'Lumeo Textiles'],
+      ['ENTREPRISE', 'Établissements Garnier-Tessier SARL'], ['ENTREPRISE', 'Garnier-Tessier']])
   })
 
   it('job titles, governance bodies, report headings and finance terms are not entities', () => {

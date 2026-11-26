@@ -45,7 +45,7 @@ async function readPdf(file: File): Promise<string> {
 }
 
 interface PdfItem { str: string; hasEOL: boolean; width: number; height: number; transform: number[] }
-interface Line { text: string; x: number; y: number; right: number }
+interface Line { text: string; x: number; y: number; right: number; gaps: number[] }
 
 /**
  * Rebuilds a page's text from positioned PDF items. Layout wraps are not content: a line that runs to the
@@ -61,12 +61,25 @@ function pageText(items: PdfItem[]): string {
     const [, , , , x, y] = it.transform
     const cur = lines.at(-1)
     if (it.str) {
-      if (!cur || eol || Math.abs(y - cur.y) > Math.max(it.height, 1) / 2) lines.push({ text: it.str, x, y, right: x + it.width })
-      else { cur.text += it.str; cur.right = Math.max(cur.right, x + it.width) }
+      if (!cur || eol || Math.abs(y - cur.y) > Math.max(it.height, 1) / 2) lines.push({ text: it.str, x, y, right: x + it.width, gaps: [] })
+      else {
+        // A horizontal gap (blank item or empty space) wider than 1.5 em on the same line is a table column:
+        // keep cells apart ("En k€⇥2024", not "k€ 2024"). Space items have no height: the font size is in transform.
+        const em = Math.abs(it.transform[3]) || it.height || 1
+        const gap = (!it.str.trim() ? it.width : x - cur.right) / em
+        const column = gap > 1.5
+        if (column) cur.gaps.push(gap)
+        cur.text = column ? `${cur.text.trimEnd()}\t${it.str.trim()}` : cur.text + it.str
+        cur.right = Math.max(cur.right, x + it.width)
+      }
     }
     eol = it.hasEOL || (eol && !it.str)
   }
   if (!lines.length) return ''
+  // A justified line spreads its words with equal wide gaps; table columns are never all equal.
+  for (const l of lines) {
+    if (l.gaps.length >= 3 && Math.max(...l.gaps) - Math.min(...l.gaps) < 0.1) l.text = l.text.replace(/\t/g, ' ')
+  }
 
   const gaps = lines.slice(1).map((l, i) => lines[i].y - l.y).filter(g => g > 0).sort((a, b) => a - b)
   const lineGap = gaps[Math.floor(gaps.length / 2)] ?? 0
@@ -79,7 +92,8 @@ function pageText(items: PdfItem[]): string {
     const charW = (line.right - line.x) / Math.max(line.text.length, 1)
     const firstWord = line.text.trimStart().split(/\s/)[0]
     // Did the next line's first word fit at the end of this one? Then the break was intentional.
-    const fits = margin - prev.right > (firstWord.length + 1) * charW
+    // A table row is never wrapped into the next one.
+    const fits = margin - prev.right > (firstWord.length + 1) * charW || prev.text.includes('\t') || line.text.includes('\t')
     // A wrap right after a hyphen continues the same word ("END-CHO-⏎2027-03", "sous-⏎traité").
     out += gap <= 0 || gap > lineGap * 1.5 ? '\n\n' : fits ? '\n' : out.endsWith('-') ? '' : ' '
     out += line.text.trim()

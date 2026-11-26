@@ -1,10 +1,64 @@
 {
-  "mask": ["COLIBRI", "Colibri", "ARVELLE", "Arvelle", "58 rue La Boétie", "75008", "Nautilis", "Verlaine", "Mutuelle Armorica",
-    "Armorica", "Banque Ouest Atlantique", "Lenoir", "Collectivité Bretagne Sud", "Terres d'Ouest", "Hugo Lemaître", "Lemaître",
-    "Caroline Vidal", "c.vidal", "01 53 77 24 18", "14,8x", "14 200", "17 900", "22 %", "61 %"],
-  "keep": ["SOMMAIRE", "SYNTHÈSE ET CONCLUSIONS", "EBITDA", "BESOIN EN FONDS DE ROULEMENT", "Due diligence financière"],
-  "companies": ["Nautilis Software SAS", "Verlaine Participations SAS"],
-  "otherCompanies": ["Banque Atlantique", "Mutuelle Armorica", "Banque Ouest Atlantique", "Groupe Lenoir Transports",
-    "Collectivité Bretagne Sud", "Coopérative Terres d'Ouest", "Arvelle", "ARVELLE", "Armorica", "Lenoir"],
-  "tolerated": ["Lemaître"]
+  "mask": [
+    "COLIBRI",
+    "Colibri",
+    "ARVELLE",
+    "Arvelle",
+    "58 rue La Boétie",
+    "75008",
+    "Nautilis",
+    "Verlaine",
+    "Mutuelle Armorica",
+    "Armorica",
+    "Banque Ouest Atlantique",
+    "Lenoir",
+    "Collectivité Bretagne Sud",
+    "Terres d'Ouest",
+    "Hugo Lemaître",
+    "Lemaître",
+    "Caroline Vidal",
+    "c.vidal",
+    "01 53 77 24 18",
+    "14,8x",
+    "14 200",
+    "17 900",
+    "22 %",
+    "61 %",
+    "-310",
+    "-105",
+    "-220",
+    "Résultat net 400",
+    " 900 ",
+    "– 310)"
+  ],
+  "keep": [
+    "SOMMAIRE",
+    "SYNTHÈSE ET CONCLUSIONS",
+    "EBITDA",
+    "BESOIN EN FONDS DE ROULEMENT",
+    "Due diligence financière",
+    "En k€",
+    "2024"
+  ],
+  "companies": [
+    "Nautilis Software SAS",
+    "Verlaine Participations SAS",
+    "CABINET ARVELLE & ASSOCIÉS",
+    "Arvelle & Associés"
+  ],
+  "otherCompanies": [
+    "Banque Atlantique",
+    "Mutuelle Armorica",
+    "Banque Ouest Atlantique",
+    "Groupe Lenoir Transports",
+    "Collectivité Bretagne Sud",
+    "Coopérative Terres d'Ouest",
+    "Arvelle",
+    "ARVELLE",
+    "Armorica",
+    "Lenoir"
+  ],
+  "tolerated": [
+    "Lemaître"
+  ]
 }

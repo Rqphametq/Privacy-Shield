@@ -73,6 +73,15 @@ describe('readTextFile', { timeout: 30_000 }, () => {
       expect(text).toContain('ni sous-traité sans')
     })
 
+    it('keeps table columns apart with a tab ("En k€⇥2024", not "En k€ 2024")', async () => {
+      const text = await readTextFile(pdf('table.pdf'))
+      expect(text).toContain('En k€\t2024\t2025')
+      expect(text).toContain('Résultat net\t400\t1 500')
+      // Justified text spreads words with equal wide gaps: that is not a table.
+      expect(text).toContain('du lundi au vendredi. Interlocuteur : Bastien Morel')
+      expect(text).toContain('Fin.')
+    })
+
     it('explains that a scanned PDF (no text layer) cannot be read', async () => {
       await expect(readTextFile(pdf('scan.pdf'))).rejects.toThrow(/aucun texte/)
     })

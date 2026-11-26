@@ -57,8 +57,8 @@ export function nirValid(raw: string): boolean {
 
 const W = String.raw`\p{Lu}[\p{L}\d'’&-]*` // capitalised or upper-case word
 const PART = String.raw`(?:de|du|des|la|le|les|aux?|sur|sous|en|et|[dl]['’])`
-// One or two spaces, same line only: a line break or a column gap ends a name or an address.
-const S = String.raw`[ \t]{1,2}`
+// One or two spaces, same line only: a line break, a tab (PDF column) or a column gap ends a name or an address.
+const S = String.raw`[ ]{1,2}`
 // Postcode (01000–98999) then city, optional Cedex.
 const CITY = String.raw`(?:0[1-9]|[1-8]\d|9[0-8])\d{3}${S}(?!Cedex|CEDEX)${W}(?:(?:${S}|-)(?:${PART}(?:${S}|-)?)?(?!Cedex|CEDEX)${W})*(?:${S}(?:Cedex|CEDEX)(?:${S}\d{1,2})?)?`
 const STREET_TYPES = ['rue', 'avenue', 'av\\.', 'boulevard', 'bd', 'place', 'allée', 'impasse', 'chemin', 'route', 'quai', 'cours',
@@ -69,15 +69,19 @@ const STREET_TYPES = ['rue', 'avenue', 'av\\.', 'boulevard', 'bd', 'place', 'all
 const STREET = String.raw`(?<![\p{L}\d.,])\d{1,4}(?:${S}?(?:bis|ter|quater))?,?${S}(?:${STREET_TYPES})(?:${S}${PART})*(?:${S})?(?:${W}|\d+)(?:${S}(?:${PART}(?:${S})?)*(?:${W}|\d+))*(?:,?${S}(?:CS|BP|TSA)${S}\d{1,6})?(?:,?${S}${CITY})?`
 
 // Company names next to their legal form: "NOVALIS DIGITAL SOLUTIONS SAS", "SARL Dupont & Fils".
-const FORMS = 'SASU|SAS|SARL|EURL|SA|SCI|SNC|SCS|SCA|SCOP|SELARL|SELAS|SCP|GIE|SEM|GmbH|GMBH|Ltd|LTD|Limited|LIMITED|LLC|LLP|Inc|INC|PLC|AG|BV|NV|SpA|SRL'
+export const FORMS = 'SASU|SAS|SARL|EURL|SA|SCI|SNC|SCS|SCA|SCOP|SELARL|SELAS|SCP|GIE|SEM|GmbH|GMBH|Ltd|LTD|Limited|LIMITED|LLC|LLP|Inc|INC|PLC|AG|BV|NV|SpA|SRL'
 const NOT_FIRST = String.raw`(?!(?:Entre|Et|Ou|Le|La|Les|Par|Pour|Avec|Chez|Dont|Société|Ci|À|For|By)(?![\p{L}\d]))`
 const NAME_TAIL = String.raw`(?:${S}(?:(?:de|du|des|et)${S})?(?:${W}|&|\d+))`
-const COMPANY = String.raw`(?<![\p{L}\d'’&-])(?:${NOT_FIRST}${W}${NAME_TAIL}{0,5}${S}(?:${FORMS})|(?:${FORMS})${NAME_TAIL}{1,6})(?![\p{L}\d])`
+// Partnerships are named after the partners: "CABINET ARVELLE & ASSOCIÉS", "Dupont & Cie".
+export const PARTNERS = String.raw`&${S}(?:Associ[ée]s|ASSOCI[ÉE]S|Partners|PARTNERS|Cie|CIE)`
+const COMPANY = String.raw`(?<![\p{L}\d'’&-])(?:${NOT_FIRST}${W}${NAME_TAIL}{0,5}${S}(?:${FORMS}|${PARTNERS})|(?:${FORMS})${NAME_TAIL}{1,6})(?![\p{L}\d])`
 const MONTH = 'janvier|février|fevrier|mars|avril|mai|juin|juillet|août|aout|septembre|octobre|novembre|décembre|decembre'
 
 // Business figures without a currency: percentages, multiples, grouped numbers, table cells, headcounts.
 const THOUSANDS = String.raw`\d{1,3}(?:[   ]\d{3})+`
 const FIGURE = String.raw`(?:${THOUSANDS}|\d+)(?:[.,]\d+)?`
+// Years are labels, not figures: "2024" heads a column, "2015 – 2026" is a period.
+const NOT_YEAR = String.raw`(?!(?:19|20)\d{2}(?!\d|[.,]\d))`
 const QUANTITY = 'salariés|postes|suppressions|reclassements|employés|collaborateurs|personnes|clients|magasins|sites|' +
   'points de vente|utilisateurs|abonnés|adhérents|licences|unités|véhicules|chauffeurs|m²'
 
@@ -99,7 +103,7 @@ const RULES: Rule[] = [
   { category: 'TELEPHONE', re: /(?<![\w+])(?:(?:\+|00)33[ .-]?(?:\(0\)[ .-]?)?|0)[1-9](?:[ .-]?\d{2}){4}(?!\d)/g },
   // International: +CC then 6–14 more digits in groups.
   { category: 'TELEPHONE', re: /(?<![\w+])\+\d{1,3}(?:[ .-]?\(?\d{1,4}\)?){2,5}(?!\d)/g, valid: m => digits(m).length >= 8 && digits(m).length <= 15 },
-  { category: 'MONTANT', re: new RegExp(String.raw`(?:[€$£]\s?(?:${NUM}))|(?<![\d.,])${NOT_AFTER_REF}(?:${NUM})${CUR_AFTER}`, 'gi') },
+  { category: 'MONTANT', re: new RegExp(String.raw`(?:(?<![A-Za-z])[€$£][  ]?(?:${NUM}))|(?<![\d.,])${NOT_AFTER_REF}(?:${NUM})${CUR_AFTER}`, 'gi') },
   // Contract, policy or file numbers announced by their label: "contrat n° 77-4521-B", "Réf. NDS-GBL-2026-117".
   { category: 'REFERENCE', re: /(?<=(?:\b[nN]°|\b[nN]o\.|\b[nN]um[ée]ro|\b[Rr][ée]f\.|\b[Rr][ée]f[ée]rence|\b[Cc]ompany number|\b[Rr]egistration number)\s*:?\s*)(?!(?:SIRE[NT]|RCS|TVA|IBAN|NIR)\b)[A-Z0-9](?:[A-Z0-9/-]*[A-Z0-9])?(?: [A-Z0-9-]*\d[A-Z0-9-]*)*/g,
     // Spaced digit groups belong to it ("CPI 3301 2019 000 041 207"); "lot n° 2" is too short to identify anyone.
@@ -112,7 +116,13 @@ const RULES: Rule[] = [
   { category: 'CHIFFRE', re: /(?<![\d.,])\d+(?:[.,]\d+)?x\b/g }, // "14,8x" (valuation multiple)
   { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\d.,])${NOT_AFTER_REF}${THOUSANDS}(?:,\d+)?(?!\d)`, 'giu') },
   { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\d.,])${FIGURE}(?=\s(?:${QUANTITY})(?!\p{L}))`, 'gu') },
-  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<=^[ \t]*)[+\-−]?${FIGURE}(?=[ \t]*$)`, 'gmu') }, // table cell
+  // Table cell: alone on its line (Word) or after a tab (PDF columns). A first-column number followed by text is a
+  // row or section number ("1⇥Synthèse"), "Page⇥1⇥/⇥2" a footer.
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?:(?<=^[ ]*)|(?<=\t[ ]*)(?<!\/\s*))${NOT_AFTER_REF}${NOT_YEAR}[+\-−]?${FIGURE}(?=[ ]*$|(?<=\t[^\n]*)[ ]*\t)`, 'gimu') },
+  // Signed figure: "-310 sur l'EBITDA" ("442-1", "2024-2026", "COVID-19" are not).
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\p{L}\d.,/_\-–−])[-−]${FIGURE}(?![\d%])`, 'gu') },
+  // Terms of a calculation: "(2 600 – 310)".
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<=\d [-–−+×] )${NOT_YEAR}${FIGURE}|(?<![\d.,])${NOT_AFTER_REF}${NOT_YEAR}${FIGURE}(?= [-–−+×] \d)`, 'giu') },
   { category: 'IP', re: /\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b/g },
 ]
 

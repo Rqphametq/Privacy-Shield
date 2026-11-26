@@ -1,5 +1,5 @@
 import { chunkText } from './chunk'
-import { detectRegex, findTerms } from './regex'
+import { detectRegex, findTerms, FORMS, PARTNERS } from './regex'
 import { mergeSpans } from './spans'
 import type { Category, Span } from './types'
 
@@ -103,18 +103,41 @@ export function detectAll(text: string, nerSpans: Span[], terms: string[]): Span
     // A name always has a capital letter: "la centrale", "le site" are common nouns.
     return /\p{Lu}/u.test(s.text) && !noise(n) && !noise(n.replace(/s$/, '')) && !INSTITUTION.test(n) && !HEADING.test(n)
   })
-  return mergeSpans([...findTerms(text, terms), ...detectRegex(text), ...ner, ...otherMentions(text, ner)])
+  const regex = detectRegex(text)
+  const cores = regex.filter(s => s.category === 'ENTREPRISE').flatMap(s => companyCores(s.text).map(text => ({ ...s, text })))
+  return mergeSpans([...findTerms(text, terms), ...regex, ...ner, ...otherMentions(text, [...ner, ...cores])])
 }
+
+const LEGAL = new RegExp(`^(?:${FORMS})\\s+|\\s+(?:${FORMS}|${PARTNERS})$`, 'u')
+const GENERIC = /^(?:Établissements|ETABLISSEMENTS|ÉTABLISSEMENTS|Ets|Groupe|GROUPE|Cabinet|CABINET|Société|SOCIÉTÉ)\s+/u
+
+/**
+ * "LUMEO TEXTILES SAS" is later written "Lumeo Textiles": the name without its legal form, and without a generic
+ * prefix ("Établissements Garnier-Tessier" → "Garnier-Tessier"). A single plain word is skipped: "Société Générale SA"
+ * must not mask every "Générale".
+ */
+function companyCores(name: string): string[] {
+  const core = name.replace(LEGAL, '')
+  const short = core.replace(GENERIC, '')
+  return [...new Set([core, short])].filter(c => c !== name && /[\s-]/.test(c.trim()) && !NOT_PERSONAL.has(norm(c)))
+}
+
+const titleCase = (s: string) => s.toLowerCase().replace(/(^|[\s-])(\p{L})/gu, (_, sep, c) => sep + c.toUpperCase())
 
 /** The model can miss a later mention of a name it found once (signature block, other context): mask them all. */
 function otherMentions(text: string, ner: Span[]): Span[] {
   const known = new Map<string, Span['category']>()
   for (const s of ner) if (s.text.length > 2 && !known.has(s.text)) known.set(s.text, s.category)
+  // "M. Hugo Lemaître" is later "le litige Lemaître": the surname alone.
+  for (const s of ner) {
+    const surname = s.category === 'PERSONNE' && /\s/.test(s.text.trim()) ? s.text.trim().split(/\s+/).at(-1)! : ''
+    if (surname.length > 2 && /^\p{Lu}/u.test(surname) && !NOT_PERSONAL.has(norm(surname)) && !known.has(surname)) known.set(surname, 'PERSONNE')
+  }
   const out: Span[] = []
   for (const [value, category] of known) {
-    // Case-sensitive, whole word: "Tours" (the city) must not hit "les tours". The all-caps form is the same
-    // name in a letterhead or a title ("Arvelle" → "CABINET ARVELLE").
-    const forms = [...new Set([value, value.toUpperCase()])].map(esc).join('|')
+    // Case-sensitive, whole word: "Tours" (the city) must not hit "les tours". The all-caps and capitalised forms
+    // are the same name in a letterhead or in the body ("Arvelle" ↔ "ARVELLE", "LUMEO TEXTILES" ↔ "Lumeo Textiles").
+    const forms = [...new Set([value, value.toUpperCase(), titleCase(value)])].map(esc).join('|')
     for (const m of text.matchAll(new RegExp(`(?<![\\p{L}\\p{N}])(?:${forms})(?![\\p{L}\\p{N}])`, 'gu'))) {
       out.push({ start: m.index!, end: m.index! + m[0].length, category, text: m[0], source: 'ner' })
     }

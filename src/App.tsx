@@ -89,7 +89,7 @@ export default function App() {
                   onClick={() => fileInput.current?.click()}
                   className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
                 >
-                  <FileUp className="size-4" aria-hidden /> Importer (.txt, .md, .docx)
+                  <FileUp className="size-4" aria-hidden /> Importer (.txt, .md, .docx, .pdf)
                 </button>
                 <input
                   ref={fileInput}

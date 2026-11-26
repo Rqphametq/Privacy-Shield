@@ -27,6 +27,6 @@ Node is managed by fnm and is not on PATH by default. In PowerShell, prefix with
 - `src/App.tsx`: state + 2 tabs (Anonymiser / Désanonymiser), purge. `src/useNer.ts`: worker lifecycle, progress, debounced detection (stale results dropped).
 - `src/components/`: `Header` (status badge, model progress, theme, purge), `Text` (HighlightedText, TaggedText, CopyButton, Card), `EntityPanel`, `categories.ts` (colors/labels).
 - `src/sample.ts`: fictitious demo contract (covered by a test).
-- `src/core/importFile.ts`: `readTextFile` for .txt/.md/.docx (mammoth, lazy-loaded; test fixture in `src/core/__fixtures__/`).
+- `src/core/importFile.ts`: `readTextFile` for .txt/.md/.docx/.pdf (mammoth and PDF.js legacy build, both lazy-loaded; PDF = text layer only, no OCR; fixtures in `src/core/__fixtures__/`).
 - Model files are self-hosted: `scripts/fetch-model.mjs` (runs as `predev`/`prebuild`) downloads the pinned revision into `public/models/` (gitignored, SHA-256 checked); the worker sets `allowRemoteModels = false`. To change model or revision, update `MODEL`/`REVISION`/hashes there and `MODEL_ID` in the worker.
 - ONNX runtime wasm is served from our build (`wasmPaths` in the worker); `onnxruntime-web` is pinned to the exact version Transformers.js uses — bump both together.

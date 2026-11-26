@@ -1,12 +1,13 @@
 import { FileText, FileUp, Pencil, ScanSearch, Undo2, WandSparkles } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ACCEPTED, readTextFile } from './core/importFile'
-import { anonymize, createVault, deanonymize, findTags, groupEntities, spanKey } from './core/mapping'
+import { activeSpans, anonymize, createVault, deanonymize, findTags, groupEntities } from './core/mapping'
 import { detectAll } from './core/ner'
 import { EntityPanel } from './components/EntityPanel'
 import { Header, ModelProgress } from './components/Header'
 import { Card, CopyButton, HighlightedText, TaggedText } from './components/Text'
 import { SAMPLE_CONTRACT } from './sample'
+import type { Category } from './core/types'
 import { useNer } from './useNer'
 
 type Tab = 'anon' | 'deanon'
@@ -21,6 +22,8 @@ export default function App() {
   const [editing, setEditing] = useState(true)
   const [terms, setTerms] = useState<string[]>([])
   const [disabled, setDisabled] = useState<Set<string>>(() => new Set())
+  // Categories the user chose not to mask at all (e.g. prices): also applies to text imported later.
+  const [offCategories, setOffCategories] = useState<Set<Category>>(() => new Set())
   const [llm, setLlm] = useState('')
   const [vault, setVault] = useState(createVault)
   const [importError, setImportError] = useState('')
@@ -36,7 +39,7 @@ export default function App() {
   useEffect(() => { document.documentElement.classList.toggle('dark', dark) }, [dark])
 
   const spans = useMemo(() => detectAll(text, ner.spans, terms), [text, ner.spans, terms])
-  const active = useMemo(() => spans.filter(s => !disabled.has(spanKey(s))), [spans, disabled])
+  const active = useMemo(() => activeSpans(spans, disabled, offCategories), [spans, disabled, offCategories])
   // The session vault only grows: a value keeps its tag even if toggled off and on again.
   const anonymized = useMemo(() => anonymize(text, active, vault), [text, active, vault])
   const rows = useMemo(() => groupEntities(spans), [spans])
@@ -46,10 +49,12 @@ export default function App() {
 
   const toggle = (key: string) =>
     setDisabled(prev => { const next = new Set(prev); if (!next.delete(key)) next.add(key); return next })
+  const toggleCategory = (c: Category) =>
+    setOffCategories(prev => { const next = new Set(prev); if (!next.delete(c)) next.add(c); return next })
 
   const purge = () => {
     if (!confirm('Purger la session ? Le texte, les entités et la table de correspondance seront effacés de la mémoire. Les réponses LLM déjà anonymisées ne pourront plus être réinjectées.')) return
-    setText(''); setEditing(true); setImportError(''); setTerms([]); setDisabled(new Set()); setLlm(''); setVault(createVault())
+    setText(''); setEditing(true); setImportError(''); setTerms([]); setDisabled(new Set()); setOffCategories(new Set()); setLlm(''); setVault(createVault())
   }
 
   const tabCls = (t: Tab) =>
@@ -136,6 +141,8 @@ export default function App() {
             <EntityPanel
               rows={rows}
               disabled={disabled}
+              offCategories={offCategories}
+              onToggleCategory={toggleCategory}
               tagOf={key => vault.byValue.get(key)}
               onToggle={toggle}
               terms={terms}

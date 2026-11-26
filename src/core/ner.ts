@@ -74,7 +74,7 @@ const NOT_PERSONAL = new Set([
   'presidente', 'pdg', 'drh', 'daf', 'dsi', 'gerant', 'gerante', 'associe', 'associee', 'administrateur', 'administratrice',
   'secretaire', 'comite de direction', 'codir', 'comex', 'cse', 'comite social et economique', 'conseil d\'administration',
   // report headings and finance terms
-  'sommaire', 'synthese', 'conclusions', 'rubrique', 'objet', 'total', 'ebitda', 'ebit', 'bfr', 'capex', 'opex', 'besoin',
+  'sommaire', 'synthese', 'conclusions', 'rubrique', 'objet', 'total', 'reclassement', 'suppression', 'effectif', 'ebitda', 'ebit', 'bfr', 'capex', 'opex', 'besoin',
 ])
 // "I. RAPPEL DES FAITS", "2) Objet": numbered headings.
 const HEADING = /^(?:[ivxlc]+|\d+)[.)]\s/

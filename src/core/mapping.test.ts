@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { anonymize, createVault, deanonymize } from './mapping'
+import { activeSpans, anonymize, createVault, deanonymize, spanKey } from './mapping'
 import { detectRegex, findTerms } from './regex'
 import { mergeSpans } from './spans'
 import type { Span } from './types'
@@ -57,5 +57,16 @@ describe('anonymize / deanonymize', () => {
       expect(anon).not.toContain(secret)
     expect(anon.match(/\[PERSONNE_1\]/g)).toHaveLength(2)
     expect(deanonymize(anon, vault)).toBe(text)
+  })
+})
+
+describe('activeSpans', () => {
+  const s = (text: string, category: Span['category']): Span => ({ start: 0, end: text.length, category, text, source: 'regex' })
+  const spans = [s('Jean Dupont', 'PERSONNE'), s('12 500 €', 'MONTANT'), s('3 000 €', 'MONTANT'), s('17 %', 'CHIFFRE')]
+
+  it('drops values unchecked one by one, and whole categories unchecked at once', () => {
+    const off = activeSpans(spans, new Set([spanKey(spans[0])]), new Set<Span['category']>(['MONTANT']))
+    expect(off.map(x => x.text)).toEqual(['17 %'])
+    expect(activeSpans(spans, new Set(), new Set())).toEqual(spans)
   })
 })

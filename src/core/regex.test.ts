@@ -82,7 +82,8 @@ describe('contract identifiers and addresses', () => {
     expect(found('immatriculée au RCS de Lyon sous le numéro SIREN 842 117 396 (SIRET du siège : 842 117 396 00027)'))
       .toEqual([['SIREN', '842 117 396'], ['SIRET', '842 117 396 00027']])
     expect(found('RCS Nanterre 531 904 873')).toEqual([['SIREN', '531 904 873']])
-    expect(found('Dossier 842 117 396, page 2')).toEqual([]) // no label, bad checksum
+    // No label, bad checksum: not a SIREN, but still masked as a business figure.
+    expect(found('Dossier 842 117 396, page 2')).toEqual([['CHIFFRE', '842 117 396']])
   })
 
   it('IBAN announced by its label is kept even if the checksum fails; BIC after its label', () => {
@@ -119,7 +120,8 @@ describe('more contract shapes (eval findings)', () => {
   it('social security number (NIR): valid key, or announced by its label', () => {
     expect(found('NIR 2 88 02 14 038 123 90.')).toEqual([['NIR', '2 88 02 14 038 123 90']])
     expect(found('numéro de sécurité sociale : 1 94 07 30 189 042 78')).toEqual([['NIR', '1 94 07 30 189 042 78']])
-    expect(found('Lot 1 94 07 30 189 042 78')).toEqual([]) // wrong key, no label
+    // Wrong key, no label: not a NIR; only its 3-digit groups look like a figure.
+    expect(found('Lot 1 94 07 30 189 042 78')).toEqual([['CHIFFRE', '30 189 042']])
   })
 
   it('birth dates after "né(e) le"', () => {
@@ -195,5 +197,23 @@ describe('internal documents (Doc1–Doc5)', () => {
     expect(found('Projet « COLIBRI » – Acquisition ; CONFIDENTIEL – PROJET COLIBRI ; Projet Colibri – Société cible'))
       .toEqual([['PROJET', 'COLIBRI'], ['PROJET', 'COLIBRI'], ['PROJET', 'Colibri']])
     expect(found('le présent projet de loi, (le « Projet »)')).toEqual([])
+  })
+})
+
+describe('business figures without a currency (CHIFFRE)', () => {
+  it('percentages, multiples, quantities of people or surface', () => {
+    expect(found('38 suppressions de postes sur 219 salariés (17 %), marge de 7,7 % et +26 % en 2025, multiple de 14,8x, 86 m²'))
+      .toEqual([['CHIFFRE', '38'], ['CHIFFRE', '219'], ['CHIFFRE', '17 %'], ['CHIFFRE', '7,7 %'], ['CHIFFRE', '+26 %'],
+        ['CHIFFRE', '14,8x'], ['CHIFFRE', '86']])
+  })
+
+  it('numbers with thousands separators, and numbers alone in a table cell', () => {
+    expect(found("Chiffre d'affaires 14 200 17 900 20 400")).toEqual([['CHIFFRE', '14 200'], ['CHIFFRE', '17 900'], ['CHIFFRE', '20 400']])
+    expect(found('Production\n118\n22\nTotal\n219')).toEqual([['CHIFFRE', '118'], ['CHIFFRE', '22'], ['CHIFFRE', '219']])
+  })
+
+  it('leaves article numbers, dates, durations, votes and amounts to their own rules', () => {
+    expect(found('Article 12, le 30 juin 2027, douze (12) mois, 5 voix pour, page 2, en 2025, article 3 500 € dus')).toEqual([['MONTANT', '500 €']])
+    expect(found('Prix 12 500,00 € HT')).toEqual([['MONTANT', '12 500,00 €']])
   })
 })

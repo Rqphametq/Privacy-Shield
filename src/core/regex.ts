@@ -75,6 +75,12 @@ const NAME_TAIL = String.raw`(?:${S}(?:(?:de|du|des|et)${S})?(?:${W}|&|\d+))`
 const COMPANY = String.raw`(?<![\p{L}\d'’&-])(?:${NOT_FIRST}${W}${NAME_TAIL}{0,5}${S}(?:${FORMS})|(?:${FORMS})${NAME_TAIL}{1,6})(?![\p{L}\d])`
 const MONTH = 'janvier|février|fevrier|mars|avril|mai|juin|juillet|août|aout|septembre|octobre|novembre|décembre|decembre'
 
+// Business figures without a currency: percentages, multiples, grouped numbers, table cells, headcounts.
+const THOUSANDS = String.raw`\d{1,3}(?:[   ]\d{3})+`
+const FIGURE = String.raw`(?:${THOUSANDS}|\d+)(?:[.,]\d+)?`
+const QUANTITY = 'salariés|postes|suppressions|reclassements|employés|collaborateurs|personnes|clients|magasins|sites|' +
+  'points de vente|utilisateurs|abonnés|adhérents|licences|unités|véhicules|chauffeurs|m²'
+
 const RULES: Rule[] = [
   { category: 'EMAIL', re: /[\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-z]{2,}/gi },
   { category: 'URL', re: /\b(?:https?:\/\/|www\.)[^\s<>"'()[\]]+/gi },
@@ -101,6 +107,12 @@ const RULES: Rule[] = [
   // Project codenames are confidential: "Projet « COLIBRI »", "PROJET COLIBRI", "Opération Atlas".
   { category: 'PROJET', re: /(?<=(?:\b[Pp]rojet|\bPROJET|\b[Oo]pération|\bOPÉRATION|\b[Nn]om de code|\b[Cc]ode name)\s+(?:«\s*)?)\p{Lu}[\p{L}\d-]*/gu },
   { category: 'REFERENCE', re: /\bsection [A-Z]{1,2} (?:n°|numéro|no\.?) ?\d+/g }, // cadastral parcel
+  // Listed after the identifiers and amounts: on a tie, those keep the span (mergeSpans is stable).
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\d.,])[+\-−]?${FIGURE}\s?%`, 'gu') },
+  { category: 'CHIFFRE', re: /(?<![\d.,])\d+(?:[.,]\d+)?x\b/g }, // "14,8x" (valuation multiple)
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\d.,])${NOT_AFTER_REF}${THOUSANDS}(?:,\d+)?(?!\d)`, 'giu') },
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<![\d.,])${FIGURE}(?=\s(?:${QUANTITY})(?!\p{L}))`, 'gu') },
+  { category: 'CHIFFRE', re: new RegExp(String.raw`(?<=^[ \t]*)[+\-−]?${FIGURE}(?=[ \t]*$)`, 'gmu') }, // table cell
   { category: 'IP', re: /\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b/g },
 ]
 

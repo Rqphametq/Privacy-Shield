@@ -16,6 +16,7 @@ export const CATEGORY: Record<Category, { label: string; cls: string; dot: strin
   NIR:        { label: 'N° sécu',    dot: 'bg-yellow-500',  cls: 'bg-yellow-100 text-yellow-900 ring-yellow-300 dark:bg-yellow-500/25 dark:text-yellow-100 dark:ring-yellow-400/40' },
   NAISSANCE:  { label: 'Date de naissance', dot: 'bg-indigo-500', cls: 'bg-indigo-100 text-indigo-900 ring-indigo-300 dark:bg-indigo-500/25 dark:text-indigo-100 dark:ring-indigo-400/40' },
   REFERENCE:  { label: 'Référence',  dot: 'bg-stone-500',   cls: 'bg-stone-200 text-stone-900 ring-stone-400 dark:bg-stone-500/30 dark:text-stone-100 dark:ring-stone-400/40' },
+  CHIFFRE:    { label: 'Chiffre',    dot: 'bg-emerald-700', cls: 'bg-emerald-50 text-emerald-950 ring-emerald-400 dark:bg-emerald-700/30 dark:text-emerald-100 dark:ring-emerald-500/40' },
   PROJET:     { label: 'Nom de projet', dot: 'bg-purple-500', cls: 'bg-purple-100 text-purple-900 ring-purple-300 dark:bg-purple-500/25 dark:text-purple-100 dark:ring-purple-400/40' },
   ADRESSE:    { label: 'Adresse',    dot: 'bg-lime-500',    cls: 'bg-lime-100 text-lime-900 ring-lime-300 dark:bg-lime-500/25 dark:text-lime-100 dark:ring-lime-400/40' },
   IP:         { label: 'Adresse IP', dot: 'bg-cyan-500',    cls: 'bg-cyan-100 text-cyan-900 ring-cyan-300 dark:bg-cyan-500/25 dark:text-cyan-100 dark:ring-cyan-400/40' },

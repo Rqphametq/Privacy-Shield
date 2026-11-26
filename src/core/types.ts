@@ -1,7 +1,7 @@
 export type Category =
   | 'PERSONNE' | 'ENTREPRISE' | 'LIEU'            // NER (Phase 2)
   | 'EMAIL' | 'TELEPHONE' | 'IBAN' | 'SIRET' | 'SIREN'
-  | 'MONTANT' | 'URL' | 'IP' | 'BIC' | 'ADRESSE' | 'NIR' | 'NAISSANCE' | 'REFERENCE' | 'PROJET' // regex (ENTREPRISE too, when a legal form is present)
+  | 'MONTANT' | 'URL' | 'IP' | 'BIC' | 'ADRESSE' | 'NIR' | 'NAISSANCE' | 'REFERENCE' | 'PROJET' | 'CHIFFRE' // regex (ENTREPRISE too, when a legal form is present)
   | 'PERSO'                                       // mot ajouté par l'utilisateur
 
 /** Higher priority wins when spans overlap: manual > regex > ner. */

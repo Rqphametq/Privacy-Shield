@@ -13,6 +13,10 @@ export const createVault = (): Vault => ({ byTag: new Map(), byValue: new Map(),
 export const spanKey = (s: Pick<Span, 'category' | 'text'>) => `${s.category}|${s.text.trim().replace(/\s+/g, ' ').toLowerCase()}`
 const key = spanKey
 
+/** Spans still to mask: values unchecked one by one and categories unchecked as a whole stay in clear. */
+export const activeSpans = (spans: Span[], disabled: Set<string>, offCategories: Set<Span['category']>) =>
+  spans.filter(s => !disabled.has(spanKey(s)) && !offCategories.has(s.category))
+
 export interface EntityRow { key: string; category: Span['category']; text: string; count: number }
 
 /** Distinct values for the entity panel, in order of first appearance. */

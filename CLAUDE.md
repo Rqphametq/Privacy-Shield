@@ -26,7 +26,7 @@ Node is managed by fnm and is not on PATH by default. In PowerShell, prefix with
 - `src/core/ner.ts`: `locateEntities` (re-finds char offsets, the pipeline gives none), `detectNer` (chunked run, model injected), `detectAll` (final fusion: drops NER noise such as contract roles, legal forms, institutions, terms the document defines in « », then masks every mention of a detected name).
 - `src/workers/ner.worker.ts`: Transformers.js `Xenova/bert-base-multilingual-cased-ner-hrl` (q8), progress forwarded. `nerClient.ts`: promise API for the UI.
 - `src/App.tsx`: state + 2 tabs (Anonymiser / Désanonymiser), purge. `src/useNer.ts`: worker lifecycle, progress, debounced detection (stale results dropped).
-- `src/components/`: `Header` (status badge, model progress, theme, purge), `Text` (HighlightedText, TaggedText, CopyButton, Card), `EntityPanel`, `categories.ts` (colors/labels).
+- `src/components/`: `Header` (status badge, model progress, theme, purge), `Text` (HighlightedText, TaggedText, CopyButton, Card), `EntityPanel` (per-value and per-category toggles, see `activeSpans` in `mapping.ts`), `categories.ts` (colors/labels).
 - `src/sample.ts`: fictitious demo contract (covered by a test).
 - `src/core/importFile.ts`: `readTextFile` for .txt/.md/.docx/.pdf (mammoth and PDF.js legacy build, both lazy-loaded; PDF = text layer only, no OCR; fixtures in `src/core/__fixtures__/`).
 - Model files are self-hosted: `scripts/fetch-model.mjs` (runs as `predev`/`prebuild`) downloads the pinned revision into `public/models/` (gitignored, SHA-256 checked); the worker sets `allowRemoteModels = false`. To change model or revision, update `MODEL`/`REVISION`/hashes there and `MODEL_ID` in `src/workers/modelId.ts`.

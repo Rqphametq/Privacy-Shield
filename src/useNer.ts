@@ -12,11 +12,16 @@ export function useNer(text: string) {
   const [status, setStatus] = useState<NerStatus>('loading')
   const [progress, setProgress] = useState<NerProgress | null>(null)
   const [result, setResult] = useState<{ text: string; spans: Span[] }>({ text: '', spans: EMPTY })
+  const [error, setError] = useState('')
   const client = useRef<ReturnType<typeof createNerClient> | null>(null)
 
   const load = useCallback(() => {
     setStatus('loading')
-    client.current?.load().then(() => setStatus('ready'), () => setStatus('error'))
+    client.current?.load().then(() => setStatus('ready'), (e: unknown) => {
+      console.error('[Privacy Shield] model load failed:', e)
+      setError(e instanceof Error ? e.message : String(e))
+      setStatus('error')
+    })
   }, [])
 
   useEffect(() => {
@@ -40,6 +45,7 @@ export function useNer(text: string) {
   const fresh = result.text === text
   return {
     status,
+    error,
     progress,
     retry: load,
     spans: fresh ? result.spans : EMPTY,

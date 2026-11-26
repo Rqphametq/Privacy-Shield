@@ -58,7 +58,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
-      <Header status={ner.status} progress={ner.progress} onRetry={ner.retry} dark={dark} onToggleDark={() => setDark(d => !d)} onPurge={purge} />
+      <Header status={ner.status} error={ner.error} progress={ner.progress} onRetry={ner.retry} dark={dark} onToggleDark={() => setDark(d => !d)} onPurge={purge} />
       {ner.status === 'loading' && <ModelProgress progress={ner.progress} />}
 
       <main className="mx-auto max-w-[1600px] px-4 py-4">

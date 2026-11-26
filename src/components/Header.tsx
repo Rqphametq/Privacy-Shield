@@ -3,6 +3,7 @@ import type { NerProgress, NerStatus } from '../useNer'
 
 interface Props {
   status: NerStatus
+  error: string
   progress: NerProgress | null
   onRetry: () => void
   dark: boolean
@@ -10,7 +11,7 @@ interface Props {
   onPurge: () => void
 }
 
-export function Header({ status, progress, onRetry, dark, onToggleDark, onPurge }: Props) {
+export function Header({ status, error, progress, onRetry, dark, onToggleDark, onPurge }: Props) {
   return (
     <header className="border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-4 py-3">
@@ -23,7 +24,7 @@ export function Header({ status, progress, onRetry, dark, onToggleDark, onPurge 
         </div>
 
         <div className="ml-auto flex flex-wrap items-center gap-2">
-          <StatusBadge status={status} progress={progress} onRetry={onRetry} />
+          <StatusBadge status={status} error={error} progress={progress} onRetry={onRetry} />
           <button
             type="button"
             onClick={onToggleDark}
@@ -45,7 +46,7 @@ export function Header({ status, progress, onRetry, dark, onToggleDark, onPurge 
   )
 }
 
-function StatusBadge({ status, progress, onRetry }: Pick<Props, 'status' | 'progress' | 'onRetry'>) {
+function StatusBadge({ status, error, progress, onRetry }: Pick<Props, 'status' | 'error' | 'progress' | 'onRetry'>) {
   const base = 'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ring-1'
   if (status === 'ready')
     return (
@@ -60,9 +61,10 @@ function StatusBadge({ status, progress, onRetry }: Pick<Props, 'status' | 'prog
     )
   if (status === 'error')
     return (
-      <span role="status" className={`${base} bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950 dark:text-amber-200 dark:ring-amber-800`}>
+      <span role="status" title={error} className={`${base} max-w-full flex-wrap bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-950 dark:text-amber-200 dark:ring-amber-800`}>
         <AlertTriangle className="size-3.5" aria-hidden /> Modèle IA indisponible — détection regex seule
         <button type="button" onClick={onRetry} className="ml-1 underline">Réessayer</button>
+        {error && <span className="w-full break-all font-mono text-[11px] font-normal opacity-80">Cause : {error}</span>}
       </span>
     )
   return (

@@ -1,17 +1,17 @@
 # Graph Report - Privacy Shield  (2026-11-26)
 
 ## Corpus Check
-- 33 files · ~12,155 words
+- 33 files · ~12,552 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 3 file(s) not represented in the graph (top: (none) 2, .css 1)
 
 ## Summary
 - 264 nodes · 481 edges · 12 communities (11 shown, 1 thin omitted)
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.8)
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 23 edges (avg confidence: 0.8)
 - Token cost: 296,700 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `dfc76503`
+- Built from commit: `42cffc5c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -37,21 +37,21 @@
 5. `vitest` - 10 edges
 6. `detectNer()` - 9 edges
 7. `Privacy Shield` - 9 edges
-8. `scripts` - 8 edges
-9. `readTextFile()` - 8 edges
-10. `detectRegex()` - 8 edges
+8. `detectRegex()` - 8 edges
+9. `mergeSpans()` - 8 edges
+10. `readTextFile()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `npm run eval (real NER contract evaluation)` --references--> `detectAll()`  [INFERRED]
   CLAUDE.md → src/core/ner.ts
-- `readTextFile()` --implements--> `File Import (.txt/.md/.docx/.pdf, text layer only)`  [EXTRACTED]
-  src/core/importFile.ts → CLAUDE.md
 - `NER Noise Filtering and Mention Propagation` --rationale_for--> `detectAll()`  [EXTRACTED]
   CLAUDE.md → src/core/ner.ts
+- `readTextFile()` --implements--> `File Import (.txt/.md/.docx/.pdf, text layer only)`  [EXTRACTED]
+  src/core/importFile.ts → CLAUDE.md
 - `nodeNer()` --calls--> `detectNer()`  [EXTRACTED]
   eval/nodeNer.ts → src/core/ner.ts
-- `App()` --calls--> `Header()`  [EXTRACTED]
-  src/App.tsx → src/components/Header.tsx
+- `detectNer()` --calls--> `mergeSpans()`  [EXTRACTED]
+  src/core/ner.ts → src/core/spans.ts
 
 ## Import Cycles
 - None detected.
@@ -110,7 +110,7 @@ Cohesion: 0.33
 Nodes (8): Header(), Props, StatusBadge(), EMPTY, NerProgress, NerStatus, useNer(), createNerClient()
 
 ## Knowledge Gaps
-- **11 isolated node(s):** `index.html (Vite entry page)`, `#root mount div`, `GitHub Pages deploy workflow (deploy.yml)`, `sample.ts fictitious demo contract`, `React + TS + Vite + Tailwind v4 + Vitest` (+6 more)
+- **11 isolated node(s):** `GitHub Pages Deploy Pipeline`, `Transformers.js`, `File Import (.txt/.md/.docx/.pdf, text layer only)`, `index.html (Vite entry page)`, `#root mount div` (+6 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 107 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -121,7 +121,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.107) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `detectAll()` (e.g. with `npm run eval (real NER contract evaluation)` and `cells()`) actually correct?**
   _`detectAll()` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `index.html (Vite entry page)`, `#root mount div`, `GitHub Pages deploy workflow (deploy.yml)` to the rest of the system?**
+- **What connects `GitHub Pages Deploy Pipeline`, `Transformers.js`, `File Import (.txt/.md/.docx/.pdf, text layer only)` to the rest of the system?**
   _11 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `App & Entity UI` be split into smaller, more focused modules?**
   _Cohesion score 0.07419712070874862 - nodes in this community are weakly interconnected._

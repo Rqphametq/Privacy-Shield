@@ -63,12 +63,12 @@ describe('detectAll (fusion regex + manual + NER)', () => {
 
   it('regex wins over an overlapping NER span', () => {
     const spans = detectAll(text, [at('airbus', 'ENTREPRISE'), at('Jean Dupont', 'PERSONNE')], [])
-    expect(view(text, spans)).toEqual([['EMAIL', 'contact@airbus.com'], ['PERSONNE', 'Jean Dupont']])
+    expect(view(text, spans)).toEqual([['EMAIL', 'contact@airbus.com'], ['PERSONNE', 'Jean Dupont'], ['PROJET', 'Apollo']])
   })
 
   it('a NER name containing a manual term is kept whole (no partial leak)', () => {
     const spans = detectAll(text, [at('Jean Dupont', 'PERSONNE')], ['Dupont'])
-    expect(view(text, spans)).toEqual([['EMAIL', 'contact@airbus.com'], ['PERSONNE', 'Jean Dupont']])
+    expect(view(text, spans)).toEqual([['EMAIL', 'contact@airbus.com'], ['PERSONNE', 'Jean Dupont'], ['PROJET', 'Apollo']])
   })
 
   it('manual terms win over NER and are added', () => {
@@ -77,7 +77,7 @@ describe('detectAll (fusion regex + manual + NER)', () => {
   })
 
   it('works with no NER at all (model not loaded yet)', () => {
-    expect(view(text, detectAll(text, [], []))).toEqual([['EMAIL', 'contact@airbus.com']])
+    expect(view(text, detectAll(text, [], []))).toEqual([['EMAIL', 'contact@airbus.com'], ['PROJET', 'Apollo']])
   })
 })
 
@@ -160,6 +160,30 @@ describe('blind eval findings', () => {
     const text = "l'Acquéreur et les Vendeurs, mariés à la mairie de Rennes, déclarée en préfecture des Bouches-du-Rhône"
     const spans = detectAll(text, [span(text, 'Acquéreur', 'ENTREPRISE'), span(text, 'Vendeurs', 'ENTREPRISE'),
       span(text, 'mairie de Rennes', 'ENTREPRISE'), span(text, 'préfecture des Bouches-du-Rhône', 'ENTREPRISE')], [])
+    expect(spans).toEqual([])
+  })
+})
+
+describe('internal documents (Doc1–Doc5)', () => {
+  const ner = (text: string, words: [string, 'PERSONNE' | 'ENTREPRISE' | 'LIEU'][]) => {
+    let from = 0
+    return words.map(([w, category]) => {
+      const start = text.indexOf(w, from); from = start + w.length
+      return { start, end: start + w.length, category, text: w, source: 'ner' as const }
+    })
+  }
+
+  it('a name found in normal case is also masked when written in capitals', () => {
+    const text = 'CABINET ARVELLE & ASSOCIÉS\nRapport du cabinet Arvelle & Associés.'
+    const spans = detectAll(text, ner(text, [['Arvelle', 'ENTREPRISE']]), [])
+    expect(view(text, spans)).toEqual([['ENTREPRISE', 'ARVELLE'], ['ENTREPRISE', 'Arvelle']])
+  })
+
+  it('job titles, governance bodies, report headings and finance terms are not entities', () => {
+    const text = 'la Directrice, la Direction générale, le Comité de direction, le CSE. SOMMAIRE EBITDA BESOIN I. RAPPEL DES FAITS'
+    const spans = detectAll(text, ner(text, [['Directrice', 'ENTREPRISE'], ['Direction générale', 'ENTREPRISE'],
+      ['Comité de direction', 'ENTREPRISE'], ['CSE.', 'PERSONNE'], ['SOMMAIRE', 'ENTREPRISE'], ['EBITDA', 'ENTREPRISE'],
+      ['BESOIN', 'ENTREPRISE'], ['I. RAPPEL DES FAITS', 'ENTREPRISE']]), [])
     expect(spans).toEqual([])
   })
 })

@@ -185,3 +185,15 @@ describe('user contracts (Bail_commercial, Contrat_distribution_exclusive)', () 
     expect(found('UK +44 (20) 7946 0958')).toEqual([['TELEPHONE', '+44 (20) 7946 0958']])
   })
 })
+
+describe('internal documents (Doc1–Doc5)', () => {
+  it('references containing a slash', () => {
+    expect(found('Réf. : LUM/GAR-2026-044 À l’attention')).toEqual([['REFERENCE', 'LUM/GAR-2026-044']])
+  })
+
+  it('project codenames, in any case, with or without quotes', () => {
+    expect(found('Projet « COLIBRI » – Acquisition ; CONFIDENTIEL – PROJET COLIBRI ; Projet Colibri – Société cible'))
+      .toEqual([['PROJET', 'COLIBRI'], ['PROJET', 'COLIBRI'], ['PROJET', 'Colibri']])
+    expect(found('le présent projet de loi, (le « Projet »)')).toEqual([])
+  })
+})

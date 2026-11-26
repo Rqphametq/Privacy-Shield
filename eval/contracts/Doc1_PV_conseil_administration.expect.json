@@ -1,0 +1,11 @@
+{
+  "mask": ["HELIOS", "Helios", "402 788 135", "12 allée des Forges", "31100", "Bernard Fontaine", "Fontaine", "Hélène Castex", "Castex",
+    "Raphaël Ouvrard", "Ouvrard", "Inès Delorme", "Delorme", "Paul-Henri Saugrain", "Saugrain", "Caravelle", "Judith Klein", "Klein",
+    "Aurélie Sabatier", "Sabatier", "Étienne Combes", "Combes", "Sartorelle", "519 347 206", "Villefranche-de-Rouergue",
+    "42 000 000 €", "36 750 000 €", "Banque Régionale du Sud-Ouest", "Thierry Navarro", "05 61 70 33 18", "BRSO", "28 000 000 €",
+    "60 000 €", "90 000 €", "Gilles Maillard", "Maillard", "480 000 €", "Lambert-Roussel", "310 000 €", "a.sabatier", "05 61 22 90 14"],
+  "keep": ["Président du conseil", "Directrice générale", "Administratrice indépendante", "Ordre du jour", "conseil de prud'hommes de",
+    "Résolution adoptée", "la Direction générale", "EBITDA"],
+  "companies": ["HELIOS MÉCANIQUE SA", "Helios Mécanique SA", "Sartorelle Précision SAS"],
+  "otherCompanies": ["Banque Régionale du Sud-Ouest", "BRSO", "Lambert-Roussel"]
+}

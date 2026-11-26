@@ -1,0 +1,9 @@
+{
+  "mask": ["COLIBRI", "Nautilis", "Verlaine", "812 654 093", "44 avenue Foch", "75116", "Charles-Antoine", "c.verlaine",
+    "+33 6 11 82 40 57", "834 220 761", "6 rue de la Monnaie", "35000", "Marion", "Le Gall", "Yann Corre", "Corre", "Armor Ventures",
+    "Sandrine Tual", "Tual", "38 500 000 €", "36 400 000 €", "4 000 000 €", "165 000 €", "Mutuelle Armorica", "Beaumont",
+    "01 44 56 21 30", "Duplessis", "Kerjean", "Gwenaëlle"],
+  "keep": ["TERM SHEET", "Directrice générale", "(la « Société »)", "1. Acquéreur", "3. Vendeurs", "garantie du passif"],
+  "companies": ["Nautilis Software SAS", "Verlaine Participations SAS"],
+  "otherCompanies": ["Armor Ventures FPCI", "Armor Ventures", "Mutuelle Armorica", "Beaumont & Cie", "Kerjean"]
+}

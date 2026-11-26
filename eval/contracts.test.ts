@@ -37,7 +37,8 @@ describe('contracts (real model)', () => {
         overMasked: exp.keep.filter(k => !flat(anon).includes(flat(k))),
         missingCompanies: exp.companies.filter(c => !companies.includes(c)),
         unexpectedCompanies: companies.filter(c => !allowed.includes(c)),
-        roundTrip: deanonymize(anon, vault) === text,
+        // "Helios" and "HELIOS" share one tag (one company for the LLM), restored with the first spelling seen.
+        roundTrip: deanonymize(anon, vault).toLowerCase() === text.toLowerCase(),
       }).toEqual({ leaks: exp.knownMisses ?? [], overMasked: [], missingCompanies: [], unexpectedCompanies: [], roundTrip: true })
     })
   }

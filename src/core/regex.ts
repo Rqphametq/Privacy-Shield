@@ -95,9 +95,11 @@ const RULES: Rule[] = [
   { category: 'TELEPHONE', re: /(?<![\w+])\+\d{1,3}(?:[ .-]?\(?\d{1,4}\)?){2,5}(?!\d)/g, valid: m => digits(m).length >= 8 && digits(m).length <= 15 },
   { category: 'MONTANT', re: new RegExp(String.raw`(?:[€$£]\s?(?:${NUM}))|(?<![\d.,])${NOT_AFTER_REF}(?:${NUM})${CUR_AFTER}`, 'gi') },
   // Contract, policy or file numbers announced by their label: "contrat n° 77-4521-B", "Réf. NDS-GBL-2026-117".
-  { category: 'REFERENCE', re: /(?<=(?:\b[nN]°|\b[nN]o\.|\b[nN]um[ée]ro|\b[Rr][ée]f\.|\b[Rr][ée]f[ée]rence|\b[Cc]ompany number|\b[Rr]egistration number)\s*:?\s*)(?!(?:SIRE[NT]|RCS|TVA|IBAN|NIR)\b)[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?(?: [A-Z0-9-]*\d[A-Z0-9-]*)*/g,
+  { category: 'REFERENCE', re: /(?<=(?:\b[nN]°|\b[nN]o\.|\b[nN]um[ée]ro|\b[Rr][ée]f\.|\b[Rr][ée]f[ée]rence|\b[Cc]ompany number|\b[Rr]egistration number)\s*:?\s*)(?!(?:SIRE[NT]|RCS|TVA|IBAN|NIR)\b)[A-Z0-9](?:[A-Z0-9/-]*[A-Z0-9])?(?: [A-Z0-9-]*\d[A-Z0-9-]*)*/g,
     // Spaced digit groups belong to it ("CPI 3301 2019 000 041 207"); "lot n° 2" is too short to identify anyone.
     valid: m => /\d/.test(m) && m.replace(/\s/g, '').length >= 4 },
+  // Project codenames are confidential: "Projet « COLIBRI »", "PROJET COLIBRI", "Opération Atlas".
+  { category: 'PROJET', re: /(?<=(?:\b[Pp]rojet|\bPROJET|\b[Oo]pération|\bOPÉRATION|\b[Nn]om de code|\b[Cc]ode name)\s+(?:«\s*)?)\p{Lu}[\p{L}\d-]*/gu },
   { category: 'REFERENCE', re: /\bsection [A-Z]{1,2} (?:n°|numéro|no\.?) ?\d+/g }, // cadastral parcel
   { category: 'IP', re: /\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b/g },
 ]

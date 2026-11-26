@@ -1,0 +1,10 @@
+{
+  "mask": ["COLIBRI", "Colibri", "ARVELLE", "Arvelle", "58 rue La Boétie", "75008", "Nautilis", "Verlaine", "Mutuelle Armorica",
+    "Armorica", "Banque Ouest Atlantique", "Lenoir", "Collectivité Bretagne Sud", "Terres d'Ouest", "Hugo Lemaître", "Lemaître",
+    "Caroline Vidal", "c.vidal", "01 53 77 24 18"],
+  "keep": ["SOMMAIRE", "SYNTHÈSE ET CONCLUSIONS", "EBITDA", "BESOIN EN FONDS DE ROULEMENT", "Due diligence financière"],
+  "companies": ["Nautilis Software SAS", "Verlaine Participations SAS"],
+  "otherCompanies": ["Banque Atlantique", "Mutuelle Armorica", "Banque Ouest Atlantique", "Groupe Lenoir Transports",
+    "Collectivité Bretagne Sud", "Coopérative Terres d'Ouest", "Arvelle", "ARVELLE", "Armorica", "Lenoir"],
+  "tolerated": ["Lemaître"]
+}

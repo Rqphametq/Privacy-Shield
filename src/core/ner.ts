@@ -55,7 +55,7 @@ export async function detectNer(
 }
 
 const norm = (s: string) =>
-  s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[’]/g, "'").replace(/^(?:l'|(?:le|la|les|une?|des)\s+)/, '').trim()
+  s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[’]/g, "'").replace(/^(?:l'|(?:le|la|les|une?|des)\s+)/, '').replace(/[.,;:]+$/, '').trim()
 
 // Words the model often tags as ORG/LOC/PER that identify nobody: contract roles, legal forms, institutions.
 const NOT_PERSONAL = new Set([
@@ -69,7 +69,15 @@ const NOT_PERSONAL = new Set([
   'code civil', 'code de commerce', 'code du travail', 'cgi', 'journal officiel',
   'parlement europeen', 'conseil', 'commission europeenne', 'espace economique europeen', 'espace',
   'm', 'm.', 'mme', 'mlle', 'mr', 'dr', 'me', 'le', 'la', 'les', 'de', 'du', 'des', 'et',
+  // job titles and governance bodies (internal notes, board minutes)
+  'directeur', 'directrice', 'direction', 'direction generale', 'directeur general', 'directrice generale', 'president',
+  'presidente', 'pdg', 'drh', 'daf', 'dsi', 'gerant', 'gerante', 'associe', 'associee', 'administrateur', 'administratrice',
+  'secretaire', 'comite de direction', 'codir', 'comex', 'cse', 'comite social et economique', 'conseil d\'administration',
+  // report headings and finance terms
+  'sommaire', 'synthese', 'conclusions', 'rubrique', 'objet', 'total', 'ebitda', 'ebit', 'bfr', 'capex', 'opex', 'besoin',
 ])
+// "I. RAPPEL DES FAITS", "2) Objet": numbered headings.
+const HEADING = /^(?:[ivxlc]+|\d+)[.)]\s/
 // Courts, arbitration chambers, trade registries ("RCS Bordeaux").
 const INSTITUTION = /^(?:tribunal|cour|chambre|conseil de prud'?hommes|conseil d'etat|rcs|mairie|prefecture)\b/
 
@@ -93,7 +101,7 @@ export function detectAll(text: string, nerSpans: Span[], terms: string[]): Span
     const n = norm(s.text)
     const noise = (w: string) => NOT_PERSONAL.has(w) || defined.has(w)
     // A name always has a capital letter: "la centrale", "le site" are common nouns.
-    return /\p{Lu}/u.test(s.text) && !noise(n) && !noise(n.replace(/s$/, '')) && !INSTITUTION.test(n)
+    return /\p{Lu}/u.test(s.text) && !noise(n) && !noise(n.replace(/s$/, '')) && !INSTITUTION.test(n) && !HEADING.test(n)
   })
   return mergeSpans([...findTerms(text, terms), ...detectRegex(text), ...ner, ...otherMentions(text, ner)])
 }
@@ -104,9 +112,11 @@ function otherMentions(text: string, ner: Span[]): Span[] {
   for (const s of ner) if (s.text.length > 2 && !known.has(s.text)) known.set(s.text, s.category)
   const out: Span[] = []
   for (const [value, category] of known) {
-    // Case-sensitive, whole word: "Tours" (the city) must not hit "les tours".
-    for (const m of text.matchAll(new RegExp(`(?<![\\p{L}\\p{N}])${esc(value)}(?![\\p{L}\\p{N}])`, 'gu'))) {
-      out.push({ start: m.index!, end: m.index! + value.length, category, text: value, source: 'ner' })
+    // Case-sensitive, whole word: "Tours" (the city) must not hit "les tours". The all-caps form is the same
+    // name in a letterhead or a title ("Arvelle" → "CABINET ARVELLE").
+    const forms = [...new Set([value, value.toUpperCase()])].map(esc).join('|')
+    for (const m of text.matchAll(new RegExp(`(?<![\\p{L}\\p{N}])(?:${forms})(?![\\p{L}\\p{N}])`, 'gu'))) {
+      out.push({ start: m.index!, end: m.index! + m[0].length, category, text: m[0], source: 'ner' })
     }
   }
   return out

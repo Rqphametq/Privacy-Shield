@@ -1,0 +1,8 @@
+{
+  "mask": ["Transvalis", "Sylvie Aubertin", "Aubertin", "Olivier Fabre", "Fabre", "Chalon-sur-Saône", "Groupe Maréchal",
+    "2 305 000 €", "1 710 000 €", "Transitio", "Léa Tran", "Tran", "communication@transvalis", "210 000 €", "Marc Eyraud",
+    "142 000 €", "135 000 €", "128 000 €"],
+  "keep": ["Comité de direction", "du CSE", "Présidente-Directrice générale", "Directeur industriel", "Strictement confidentiel"],
+  "companies": ["Transvalis Industries SAS"],
+  "otherCompanies": ["Groupe Maréchal", "Transitio"]
+}

@@ -1,0 +1,9 @@
+{
+  "mask": ["MERCIER-AUBRY", "Mercier-Aubry", "27 rue de Rivoli", "75001", "+33 1 42 96 38 40", "mercier-aubry-avocats", "LUMEO",
+    "Lumeo", "LUM/GAR-2026-044", "Damien Pellerin", "Pellerin", "3 rue des Tisserands", "59100", "Garnier-Tessier", "Louis Tessier",
+    "412 000 €", "Nathalie Briand", "Rémi Fabregue", "FR76 3000 2005 5500 0012 3456 789", "MRAUFRPPXXX", "Claire Mercier",
+    "c.mercier", "+33 6 70 23 55 18"],
+  "keep": ["I. RAPPEL DES FAITS", "SECRET PROFESSIONNEL AVOCAT / CLIENT", "Code de commerce", "tribunal des activités économiques de"],
+  "companies": ["LUMEO TEXTILES SAS", "Établissements Garnier-Tessier SARL"],
+  "otherCompanies": ["Lumeo Textiles", "Garnier-Tessier", "Mercier-Aubry", "MERCIER-AUBRY"]
+}

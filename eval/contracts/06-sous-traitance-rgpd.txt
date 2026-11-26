@@ -1,0 +1,40 @@
+ACCORD DE SOUS-TRAITANCE DES DONNÉES PERSONNELLES
+(article 28 du règlement (UE) 2016/679 du Parlement européen et du Conseil)
+
+ENTRE :
+CLINIQUE VÉTÉRINAIRE DES TROIS RIVIÈRES SELARL, au capital de 12 000 €, inscrite au RCS d'Angers sous le numéro 794 612 358, dont le siège est situé 15 boulevard du Roi René, 49100 Angers, représentée par le Dr Mathilde Rocher, associée gérante, ci-après le « Responsable de traitement » ;
+
+ET :
+DATAVET CLOUD SA, au capital de 1 200 000 €, RCS Nantes 402 118 937, Parc d'activités de la Chantrerie, 2 rue Alfred Kastler, CS 20722, 44307 Nantes Cedex 3, représentée par Monsieur Olivier Pichon, directeur général délégué, ci-après le « Sous-traitant ».
+
+1. OBJET
+Le Sous-traitant est autorisé à traiter, pour le compte du Responsable de traitement, les données personnelles nécessaires à la fourniture du logiciel de gestion de clinique « VetAgenda » : prise de rendez-vous, dossiers des animaux, facturation des propriétaires.
+
+2. DONNÉES ET PERSONNES CONCERNÉES
+Catégories de personnes : propriétaires d'animaux, salariés de la clinique.
+Catégories de données : identité, coordonnées, historique des soins, données de facturation. Aucune donnée de santé humaine n'est traitée.
+
+3. OBLIGATIONS DU SOUS-TRAITANT
+Le Sous-traitant s'engage à :
+a) traiter les données uniquement pour la finalité décrite ci-dessus ;
+b) garantir la confidentialité des données ;
+c) héberger les données exclusivement en France, dans les centres de données de Nantes et de Rennes ;
+d) notifier toute violation de données au Responsable de traitement dans un délai maximum de 24 heures, à l'adresse rgpd@clinique-trois-rivieres.example ;
+e) ne pas recruter d'autre sous-traitant sans autorisation écrite préalable.
+
+4. SOUS-TRAITANTS ULTÉRIEURS
+Le Responsable de traitement autorise le recours à OVH Hosting SAS pour l'hébergement des sauvegardes.
+
+5. DÉLÉGUÉ À LA PROTECTION DES DONNÉES
+Le délégué à la protection des données du Sous-traitant est M. Antoine Kerlévéo, joignable au +33 (0)2 40 12 34 56 ou à dpo@datavet.example. La CNIL est l'autorité de contrôle compétente.
+
+6. PRIX
+La prestation est incluse dans l'abonnement mensuel de 189,00 € HT par poste, prélevé sur le compte FR76 1470 7000 0131 0219 4567 841.
+
+7. DURÉE
+Le présent accord suit le sort du contrat d'abonnement signé le 2 février 2026.
+
+Fait à Angers, le 10 mars 2026.
+
+Pour la CLINIQUE VÉTÉRINAIRE DES TROIS RIVIÈRES SELARL : Dr Mathilde Rocher
+Pour DATAVET CLOUD SA : Olivier Pichon

@@ -1,0 +1,9 @@
+{
+  "mask": ["TILLEULS", "7 place Carnot", "487 263 915", "00018", "Isabelle", "Garnier", "i.garnier", "05 56 44 71 02",
+    "VERDIER GOURMANDE", "Verdier", "25 rue Sainte-Catherine", "913 508 247", "00031", "Antoine", "a.verdier", "06 74 18 52 90",
+    "Delmas", "CPI 3301 2019 000 041 207", "Laure", "gestion@delmas", "+33 5 56 90 12 45", "14 cours de l'Intendance",
+    "FR76 3000 3000 7100 0501 2345 678", "SCTLFR22XXX", "locataires.delmas"],
+  "keep": ["LE BAILLEUR :", "LE PRENEUR :", "LE MANDATAIRE :", "Code de commerce", "INSEE", "Code civil", "société civile immobilière",
+    "tribunal judiciaire de", "juge des loyers commerciaux", "(lot n° 2)"],
+  "companies": ["SCI DES TILLEULS", "MAISON VERDIER GOURMANDE SAS", "Delmas Immobilier"]
+}

@@ -1,0 +1,8 @@
+{
+  "mask": ["Tilleuls du Rhône", "812 345 671", "7 bis allée des Tilleuls", "69300", "Caluire-et-Cuire", "Henri", "Vasseur", "Léa Garnier",
+    "Garnier", "14 février 1988", "Grenoble", "23 chemin du Moulin", "901 234 567 00012", "112 cours Lafayette", "69003",
+    "FR14 2004 1010 0505 0001 3M02 606", "CCBPFRPPLYO", "77-4521-B", "06 71 82 93 04", "07 68 12 45 90", "h.vasseur@", "contact@atelier-lea"],
+  "keep": ["« le Bailleur »", "« le Preneur »", "Le Bailleur donne à bail au Preneur", "Code de commerce", "Code civil", "INSEE", "société civile immobilière"],
+  "companies": ["SCI Les Tilleuls du Rhône"],
+  "otherCompanies": ["Banque Populaire Auvergne Rhône Alpes", "MAIF"]
+}

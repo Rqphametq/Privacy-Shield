@@ -1,0 +1,7 @@
+{
+  "mask": ["Delorme", "58 rue Nationale", "37000", "438 215 907", "438215907", "Bertrand", "Chloé", "Lambert", "91238475600018",
+    "3 rue Colbert", "06.48.27.91.35", "chloe.lambert", "maison-delorme", "FR76 1695 8000 0123 4567 8901 234", "QNTOFRP1XXX"],
+  "keep": ["Le Client :", "Le Freelance :", "art. 293 B du CGI", "entrepreneure individuelle", "SARL au capital"],
+  "companies": ["Maison Delorme & Fils"],
+  "tolerated": ["Vouvray"]
+}

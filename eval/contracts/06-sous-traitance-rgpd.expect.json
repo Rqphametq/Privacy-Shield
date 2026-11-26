@@ -1,0 +1,8 @@
+{
+  "mask": ["CLINIQUE VÉTÉRINAIRE DES TROIS RIVIÈRES", "794 612 358", "15 boulevard du Roi René", "49100", "Mathilde", "Rocher",
+    "DATAVET CLOUD", "402 118 937", "Chantrerie", "2 rue Alfred Kastler", "20722", "44307", "Olivier Pichon", "Pichon",
+    "@clinique-trois-rivieres", "Antoine Kerlévéo", "40 12 34 56", "dpo@datavet", "FR76 1470 7000 0131 0219 4567 841"],
+  "keep": ["« Responsable de traitement »", "« Sous-traitant »", "CNIL", "règlement (UE) 2016/679", "Parlement européen", "associée gérante"],
+  "companies": ["CLINIQUE VÉTÉRINAIRE DES TROIS RIVIÈRES SELARL", "DATAVET CLOUD SA"],
+  "otherCompanies": ["OVH Hosting SAS"]
+}

@@ -1,0 +1,9 @@
+{
+  "mask": ["DUPUIS", "Dupuis", "Jean-Pierre", "Marcel", "22/09/1956", "MARTIN Sylvie", "Sylvie", "5 avril 1959", "Vannes",
+    "Résidence Les Hortensias", "14 avenue Aristide Briand", "35000", "Mehdi", "HADDAD", "Haddad", "11 novembre 1987",
+    "6 rue Gambetta", "59000", "+33 6 21 43 65 87", "mehdi.haddad87", "3 boulevard de la Mer", "section AB numéro 412",
+    "Hélène Quéméner", "Quéméner", "9 rue de Dinan", "FR76 4004 1000 0100 0001 2345 678", "Diag Ouest Expertises", "DOE-2026-8841"],
+  "keep": ["VENDEURS", "ACQUÉREUR", "l'Acquéreur", "loi Carrez", "condition suspensive", "communauté réduite aux acquêts"],
+  "companies": [],
+  "otherCompanies": ["Crédit Mutuel de Bretagne", "Diag Ouest Expertises"]
+}

@@ -1,0 +1,9 @@
+{
+  "mask": ["ÉCLAIRAGE NORDIQUE", "790 316 548", "00045", "63 boulevard de la Liberté", "59800", "Étienne", "Brasseur",
+    "COMPTOIR DE L'HABITAT OUEST", "448 725 091", "00067", "9 quai Ferdinand-Favre", "44000", "Nadia", "Benali",
+    "extranet.eclairage-nordique", "FR76 1027 8021 3000 0201 2345 612", "ENLIFR2AXXX", "END-CHO", "2027-03", "Claire Moreau",
+    "c.moreau", "03 20 48 66 07", "Karim", "k.benali", "+33 6 21 45 87 30", "Hugo Vasseur", "h.vasseur", "03 20 48 66 00"],
+  "keep": ["(le « Fournisseur »)", "(le « Distributeur »)", "(le « Contrat »)", "« Territoire »", "Code de commerce", "Code civil",
+    "RGPD", "Directeur général", "tribunal de commerce de", "]).", "sous-traité"],
+  "companies": ["ÉCLAIRAGE NORDIQUE SAS", "COMPTOIR DE L'HABITAT OUEST SARL"]
+}

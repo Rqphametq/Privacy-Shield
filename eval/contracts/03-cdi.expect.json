@@ -1,0 +1,9 @@
+{
+  "mask": ["Helioscope", "4 place de la Comédie", "34000", "523 789 104", "Karim", "Benali", "Lucas", "Moreau", "3 juillet 1994",
+    "1 94 07 30 189 042 78", "impasse des Oliviers", "30900", "FR76 1027 8089 1200 0204 5310 147", "Inès",
+    "06 55 43 21 09", "@helioscope-energie"],
+  "keep": ["« l'Employeur »", "« le Salarié »", "URSSAF", "Code du travail", "Syntec", "ingénieur d'études", "Directeur des ressources humaines"],
+  "companies": ["Helioscope Énergie SAS"],
+  "knownMisses": ["Régie Solaire du Gard"],
+  "otherCompanies": ["Malakoff Humanis"]
+}

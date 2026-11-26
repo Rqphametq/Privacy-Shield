@@ -3,9 +3,8 @@ import { env, pipeline, type ProgressInfo } from '@huggingface/transformers'
 import ortMjs from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.mjs?url'
 import ortWasm from 'onnxruntime-web/ort-wasm-simd-threaded.asyncify.wasm?url'
 import { detectNer, type NerEntity } from '../core/ner'
+import { MODEL_ID } from './modelId'
 import type { Span } from '../core/types'
-
-export const MODEL_ID = 'Xenova/bert-base-multilingual-cased-ner-hrl'
 
 export type WorkerRequest = { id: number; type: 'load' } | { id: number; type: 'detect'; text: string }
 export type WorkerResponse =

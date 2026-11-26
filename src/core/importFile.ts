@@ -80,7 +80,8 @@ function pageText(items: PdfItem[]): string {
     const firstWord = line.text.trimStart().split(/\s/)[0]
     // Did the next line's first word fit at the end of this one? Then the break was intentional.
     const fits = margin - prev.right > (firstWord.length + 1) * charW
-    out += gap <= 0 || gap > lineGap * 1.5 ? '\n\n' : fits ? '\n' : ' '
+    // A wrap right after a hyphen continues the same word ("END-CHO-⏎2027-03", "sous-⏎traité").
+    out += gap <= 0 || gap > lineGap * 1.5 ? '\n\n' : fits ? '\n' : out.endsWith('-') ? '' : ' '
     out += line.text.trim()
   }
   return out

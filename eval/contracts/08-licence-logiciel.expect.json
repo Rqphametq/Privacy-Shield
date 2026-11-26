@@ -1,0 +1,8 @@
+{
+  "mask": ["ALTIMÉTRIE", "31 rue du Faubourg Saint-Antoine", "75011", "487 220 915", "Nathalie Ferreira", "Ferreira",
+    "Amis du Vieux Port", "8 quai de Rive-Neuve", "13001", "Gérard Ollivier", "Ollivier", "Bernadette Roux", "Yann Le Goff",
+    "BE71 0961 2345 6769", "ALT-SEPA-00921", "51.159.22.104", "01 84 60 12 12", "@altimetrie", "Bastien Morel", "CP-4471"],
+  "keep": ["« Éditeur »", "« Licencié »", "RGPD", "loi Informatique et Libertés", "Tribunal judiciaire de", "association loi 1901"],
+  "companies": ["ALTIMÉTRIE LOGICIELS", "Association Les Amis du Vieux Port"],
+  "otherCompanies": ["Scaleway SAS"]
+}

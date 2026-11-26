@@ -1,0 +1,9 @@
+{
+  "mask": ["NOVALIS", "DIGITAL SOLUTIONS", "GROUPE BELLECOUR LOGISTIQUE", "842 117 396", "00027", "531 904 872", "00045",
+    "18 rue de la Barre", "69002", "42 avenue Jean Jaurès", "92110", "Clichy", "Camille", "Rousseau", "Sophie Marchetti", "Marchetti",
+    "Dupont", "Thomas Lefèvre", "Lefèvre", "FR76 3000 4008 2700 0102 3456 789", "NVLSFRPPXXX", "@novalis-digital", "@gbl-logistique",
+    "06 12 34 56 78", "01 47 31 20 64", "72 55 03 18", "clients.novalis-digital"],
+  "keep": ["« le Prestataire »", "« le Client »", "les Parties", "société par actions simplifiée", "société à responsabilité limitée",
+    "Tribunal de commerce de", "Union européenne", "règlement (UE)", "immatriculée au RCS de", "Code de commerce", "Présidente"],
+  "companies": ["NOVALIS DIGITAL SOLUTIONS SAS", "GROUPE BELLECOUR LOGISTIQUE SARL"]
+}

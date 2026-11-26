@@ -1,0 +1,40 @@
+ACCORD DE CONFIDENTIALITÉ RÉCIPROQUE
+
+Le présent accord est conclu entre :
+
+(1) ORBITAL WAVE TECHNOLOGIES LTD, a company incorporated in England and Wales under company number 09876543, having its registered office at 221 Baker Street, London NW1 6XE, United Kingdom, represented by Mr. James O'Connor, Chief Executive Officer;
+
+(2) Kestrel Analytique SASU, société par actions simplifiée unipersonnelle au capital de 5 000 €, RCS Bordeaux 851 963 204, siège : 17, quai des Chartrons, 33000 Bordeaux, représentée par Mme Aurélie Chen, Présidente ;
+
+ci-après désignées individuellement une « Partie » et collectivement les « Parties ».
+
+PRÉAMBULE
+Les Parties envisagent une collaboration portant sur le développement d'un algorithme de prévision de trafic maritime (le « Projet »). Dans ce cadre, chaque Partie sera amenée à communiquer à l'autre des informations confidentielles.
+
+ARTICLE 1 – DÉFINITIONS
+« Informations Confidentielles » désigne toute information, de quelque nature que ce soit, communiquée par une Partie (la « Partie Émettrice ») à l'autre Partie (la « Partie Réceptrice »), notamment les données techniques, codes sources, jeux de données, plans d'affaires et informations financières.
+
+ARTICLE 2 – OBLIGATIONS
+La Partie Réceptrice s'engage à ne divulguer les Informations Confidentielles qu'à ses salariés et conseils ayant besoin d'en connaître, tenus à une obligation équivalente. Les données ne seront hébergées que sur des serveurs situés dans l'Espace économique européen ou au Royaume-Uni.
+
+ARTICLE 3 – EXCEPTIONS
+Ne sont pas couvertes les informations tombées dans le domaine public, déjà connues de la Partie Réceptrice ou communiquées par un tiers sans violation d'une obligation de confidentialité.
+
+ARTICLE 4 – DURÉE
+Le présent accord prend effet à sa date de signature pour une durée de trois (3) ans. Les obligations de confidentialité survivent cinq (5) ans après son terme.
+
+ARTICLE 5 – CORRESPONDANTS
+Pour ORBITAL WAVE TECHNOLOGIES LTD : Ms. Priya Raman, Head of Partnerships – priya.raman@orbitalwave.example – +44 20 7946 0321.
+Pour Kestrel Analytique SASU : M. Julien Fabre, responsable technique – julien.fabre@kestrel-analytique.example – 05 56 44 18 27.
+Les échanges de fichiers se feront exclusivement via l'espace sécurisé https://share.kestrel-analytique.example/orbital, accessible depuis l'adresse IP fixe 81.250.143.17.
+
+ARTICLE 6 – PÉNALITÉ
+Toute violation du présent accord entraînera le versement d'une indemnité forfaitaire de 50 000 €, sans préjudice de dommages-intérêts complémentaires.
+
+ARTICLE 7 – DROIT APPLICABLE
+Le présent accord est régi par le droit français. Tout litige sera soumis à la Chambre arbitrale internationale de Paris, à défaut au Tribunal de commerce de Bordeaux.
+
+Signé électroniquement via DocuSign le 8 septembre 2026.
+
+For ORBITAL WAVE TECHNOLOGIES LTD                Pour Kestrel Analytique SASU
+James O'Connor, CEO                              Aurélie Chen, Présidente

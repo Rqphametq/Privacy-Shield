@@ -1,2 +1,7 @@
 # test fixtures (sample .docx/.pdf files): test data, not project knowledge
 src/core/__fixtures__/
+
+# eval contracts: fictitious test data for npm run eval
+eval/contracts/
+# user scratch folder (sample contracts); copies live in eval/contracts
+ex-contrats/

@@ -42,6 +42,7 @@ export default function App() {
   const rows = useMemo(() => groupEntities(spans), [spans])
   const restored = useMemo(() => deanonymize(llm, vault), [llm, vault])
   const tags = useMemo(() => findTags(llm, vault), [llm, vault])
+  const pending = !!text.trim() && (ner.status === 'loading' || ner.analyzing)
 
   const toggle = (key: string) =>
     setDisabled(prev => { const next = new Set(prev); if (!next.delete(key)) next.add(key); return next })
@@ -123,7 +124,12 @@ export default function App() {
               )}
             </Card>
 
-            <Card title="Version anonymisée" actions={<CopyButton text={text ? anonymized : ''} label="Copier pour le LLM" />}>
+            <Card title="Version anonymisée" actions={
+              // Until the model has run, names and companies are still in clear: copying now would leak them.
+              pending
+                ? <CopyButton text="" label="Analyse IA en cours…" />
+                : <CopyButton text={text ? anonymized : ''} label="Copier pour le LLM" />
+            }>
               {text ? <TaggedText text={anonymized} /> : <p className="text-slate-400">Le texte anonymisé apparaîtra ici.</p>}
             </Card>
 

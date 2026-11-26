@@ -1,0 +1,9 @@
+{
+  "mask": ["ORBITAL", "WAVE TECHNOLOGIES", "09876543", "Baker Street", "NW1 6XE", "James", "O'Connor", "Kestrel", "851 963 204",
+    "quai des Chartrons", "33000", "Aurélie Chen", "Chen", "Priya Raman", "@orbitalwave", "+44 20 7946 0321", "Julien Fabre",
+    "@kestrel-analytique", "05 56 44 18 27", "share.kestrel", "81.250.143.17"],
+  "keep": ["« Partie »", "Partie Réceptrice", "Espace économique européen", "Chambre arbitrale internationale de Paris",
+    "Tribunal de commerce de", "société par actions simplifiée unipersonnelle", "Chief Executive Officer"],
+  "companies": ["ORBITAL WAVE TECHNOLOGIES LTD", "Kestrel Analytique SASU"],
+  "otherCompanies": ["DocuSign"]
+}

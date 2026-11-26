@@ -15,18 +15,19 @@ Node is managed by fnm and is not on PATH by default. In PowerShell, prefix with
 
 - `npm run dev`: dev server
 - `npm test`: Vitest (core engine unit tests)
+- `npm run eval`: real NER model (Node, onnxruntime-node) on `eval/contracts/*` (.txt/.docx/.pdf), each with a `.expect.json` (leaks, over-masking, company names, round trip). Run after any detection change; add a contract when a new error shows up.
 - `npm run build`: typecheck (`tsc --noEmit`) + Vite build
 - `npm run preview`: serve the build
 - Deploy: push to `main` → `.github/workflows/deploy.yml` (test + build with `--base=/<repo>/`) → GitHub Pages.
 
 ## Layout
-- `src/core/`: pure engine, no DOM. `regex.ts` (detectors + user terms), `spans.ts` (overlap merge: manual > regex > ner, then longer), `mapping.ts` (Vault: anonymize/deanonymize, RAM only).
+- `src/core/`: pure engine, no DOM. `regex.ts` (detectors + user terms; label-announced values like "SIREN …"/"IBAN :" pass even with a bad checksum; addresses, legal-form company names, NIR, birth dates, references), `spans.ts` (overlap merge: manual > regex > ner, then longer), `mapping.ts` (Vault: anonymize/deanonymize, RAM only).
 - `src/core/chunk.ts`: sentence/paragraph chunking with overlap, exact offsets (BERT 512-token limit).
-- `src/core/ner.ts`: `locateEntities` (re-finds char offsets, the pipeline gives none), `detectNer` (chunked run, model injected), `detectAll` (final fusion).
+- `src/core/ner.ts`: `locateEntities` (re-finds char offsets, the pipeline gives none), `detectNer` (chunked run, model injected), `detectAll` (final fusion: drops NER noise such as contract roles, legal forms, institutions, terms the document defines in « », then masks every mention of a detected name).
 - `src/workers/ner.worker.ts`: Transformers.js `Xenova/bert-base-multilingual-cased-ner-hrl` (q8), progress forwarded. `nerClient.ts`: promise API for the UI.
 - `src/App.tsx`: state + 2 tabs (Anonymiser / Désanonymiser), purge. `src/useNer.ts`: worker lifecycle, progress, debounced detection (stale results dropped).
 - `src/components/`: `Header` (status badge, model progress, theme, purge), `Text` (HighlightedText, TaggedText, CopyButton, Card), `EntityPanel`, `categories.ts` (colors/labels).
 - `src/sample.ts`: fictitious demo contract (covered by a test).
 - `src/core/importFile.ts`: `readTextFile` for .txt/.md/.docx/.pdf (mammoth and PDF.js legacy build, both lazy-loaded; PDF = text layer only, no OCR; fixtures in `src/core/__fixtures__/`).
-- Model files are self-hosted: `scripts/fetch-model.mjs` (runs as `predev`/`prebuild`) downloads the pinned revision into `public/models/` (gitignored, SHA-256 checked); the worker sets `allowRemoteModels = false`. To change model or revision, update `MODEL`/`REVISION`/hashes there and `MODEL_ID` in the worker.
+- Model files are self-hosted: `scripts/fetch-model.mjs` (runs as `predev`/`prebuild`) downloads the pinned revision into `public/models/` (gitignored, SHA-256 checked); the worker sets `allowRemoteModels = false`. To change model or revision, update `MODEL`/`REVISION`/hashes there and `MODEL_ID` in `src/workers/modelId.ts`.
 - ONNX runtime wasm is served from our build (`wasmPaths` in the worker); `onnxruntime-web` is pinned to the exact version Transformers.js uses — bump both together.

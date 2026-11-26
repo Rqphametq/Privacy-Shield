@@ -67,6 +67,12 @@ describe('readTextFile', { timeout: 30_000 }, () => {
       ]))
     })
 
+    it('a line ending with a hyphen continues without a space ("END-CHO-⏎2027-03", "sous-⏎traité")', async () => {
+      const text = await readTextFile(pdf('hyphen-wrap.pdf'))
+      expect(text).toContain('Réf. END-CHO-2027-03 –')
+      expect(text).toContain('ni sous-traité sans')
+    })
+
     it('explains that a scanned PDF (no text layer) cannot be read', async () => {
       await expect(readTextFile(pdf('scan.pdf'))).rejects.toThrow(/aucun texte/)
     })

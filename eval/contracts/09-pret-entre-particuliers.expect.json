@@ -1,0 +1,8 @@
+{
+  "mask": ["Thibault", "Garnier-Lemoine", "30 août 1991", "27 allée Jean Jaurès", "31000", "190831T04217", "Odile Fournier",
+    "Fournier", "2 janvier 1950", "4 impasse des Lilas", "81100", "Castres", "FR42 2004 1010 1612 3456 7A02 078",
+    "06 84 22 19 73", "t.garnier.lemoine"],
+  "keep": ["l'emprunteur", "prêteur", "Bon pour la somme de quinze mille euros", "sans intérêt"],
+  "companies": [],
+  "otherCompanies": ["La Banque Postale", "Banque Postale"]
+}

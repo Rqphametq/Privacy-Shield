@@ -8,3 +8,4 @@ graphify-out/.graphify_*
 graphify-out/converted/
 # model weights, downloaded by scripts/fetch-model.mjs
 public/models/
+graphify-out/20*/

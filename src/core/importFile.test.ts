@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { readTextFile } from './importFile'
 
-describe('readTextFile', () => {
+// The first dynamic import of mammoth can take >5s on a cold cache (CI): allow more than Vitest's default.
+describe('readTextFile', { timeout: 30_000 }, () => {
   it('reads .txt and .md as UTF-8 text', async () => {
     expect(await readTextFile(new File(['Bonjour Clément'], 'note.txt'))).toBe('Bonjour Clément')
     expect(await readTextFile(new File(['# Titre\n- point'], 'README.MD'))).toBe('# Titre\n- point')

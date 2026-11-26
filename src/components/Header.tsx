@@ -52,7 +52,7 @@ function StatusBadge({ status, error, progress, onRetry }: Pick<Props, 'status' 
     return (
       <span
         role="status"
-        title="Le modèle a été téléchargé une seule fois depuis Hugging Face puis mis en cache. Vos textes ne quittent jamais ce navigateur."
+        title="Le modèle a été téléchargé une seule fois depuis ce site puis mis en cache. Vos textes ne quittent jamais ce navigateur."
         className={`${base} bg-emerald-50 text-emerald-800 ring-emerald-200 dark:bg-emerald-950 dark:text-emerald-200 dark:ring-emerald-800`}
       >
         <span className="size-2 rounded-full bg-emerald-500" aria-hidden />

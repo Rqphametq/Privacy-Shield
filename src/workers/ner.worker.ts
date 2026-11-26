@@ -13,8 +13,11 @@ export type WorkerResponse =
   | { type: 'result'; id: number; spans?: Span[] }
   | { type: 'error'; id: number; message: string }
 
-// Model weights come from the Hugging Face Hub once, then the browser cache. User text never leaves this worker.
-env.allowLocalModels = false
+// Model files are served by our own site (public/models/, filled by scripts/fetch-model.mjs), then kept
+// in the browser cache. No request to any third party; user text never leaves this worker.
+env.allowRemoteModels = false
+env.allowLocalModels = true
+env.localModelPath = `${import.meta.env.BASE_URL}models/`
 // Serve the ONNX runtime from our own build instead of Transformers.js' default jsDelivr CDN.
 // shortcut: asyncify build only; Safari < 26 without WebGPU needs the plain build, add it if Safari support matters.
 env.backends.onnx.wasm!.wasmPaths = { mjs: ortMjs, wasm: ortWasm }
